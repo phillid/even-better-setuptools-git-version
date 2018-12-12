@@ -14,15 +14,11 @@ setup(
     author='Vivin Paliath',
     author_email='vivin.paliath@gmail.com',
     description='Automatically set package version using git tags.',
+    version="1.0.5",
     long_description=README(),
     long_description_content_type='text/markdown',
     keywords='setuptools git version-control',
     license='MIT',
-    version_config={
-        "version_format": "{tag}.dev{sha}",
-        "starting_version": "0.1.0"
-    },
-    setup_requires=["better-setuptools-git-version"],
     classifiers=[
         'Framework :: Setuptools Plugin',
         'Intended Audience :: Developers',
