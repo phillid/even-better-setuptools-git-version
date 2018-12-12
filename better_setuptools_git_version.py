@@ -29,13 +29,13 @@ def get_head_sha():
     return subprocess.getoutput('git rev-parse HEAD')
 
 
-def get_version(template="{tag}-dev{sha}", starting_version="0.1.0"):
+def get_version(template="{tag}.dev{sha}", starting_version="0.1.0"):
     """
     Return the full git version using the given template. If there are no annotated tags, the version specified by
     starting_version will be used. If HEAD is at the tag, the version will be the tag itself. If there are commits ahead
     of the tag, the first 8 characters of the sha of the HEAD commit will be included.
 
-    In all of the above cases, if the working tree is also dirty or contains untracked files, a "-dirty" suffix will be
+    In all of the above cases, if the working tree is also dirty or contains untracked files, a "+dirty" suffix will be
     appended to the version.
 
     Args:
@@ -61,7 +61,7 @@ def get_version(template="{tag}-dev{sha}", starting_version="0.1.0"):
     if is_dirty():
         print("the dirty")
         print(subprocess.getoutput("git status -s"))
-        version = "{version}-dirty".format(version=version)
+        version = "{version}+dirty".format(version=version)
 
     return version
 
@@ -77,7 +77,7 @@ def validate_version_config(dist, _, config):
         starting_version = config["starting_version"]
 
     if "version_format" not in config:
-        template = "{tag}-{sha}"
+        template = "{tag}.dev{sha}"
     else:
         template = config["version_format"]
 

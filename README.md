@@ -39,7 +39,7 @@ this package allows to extract it from tags in the underlying Git repository:
 setup(
     name='foobar',
     version_config={
-        "version_format": "{tag}-dev{sha}",
+        "version_format": "{tag}.dev{sha}",
         "starting_version": "0.1.0"
     },
     setup_requires=['better-setuptools-git-version'],
@@ -49,4 +49,4 @@ setup(
 
 The tool uses the semantically-latest tag as the base version. If there are no annotated tags, the version specified by `starting_version` will be used. If `HEAD` is at the tag, the version will be the tag itself. If there are commits ahead of the tag, the first 8 characters of the sha of the `HEAD` commit will be included.
 
-In all of the above cases, if the working tree is also dirty or contains untracked files, a `-dirty` suffix will be appended to the version.
+In all of the above cases, if the working tree is also dirty or contains untracked files, a `+dirty` suffix will be appended to the version.
