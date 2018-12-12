@@ -3,11 +3,6 @@ import subprocess
 from setuptools import setup
 
 
-def get_tag():
-    """Return the last tag for the git repository."""
-    return subprocess.getoutput('git tag --sort=version:refname --merged | tail -n1')
-
-
 def README():
     """Return the contents of the README file for this project."""
     with open('README.md') as README_file:
@@ -16,7 +11,7 @@ def README():
 
 setup(
     name='better-setuptools-git-version',
-    version=get_tag(),
+    version="1.0.3",
     url='https://github.com/vivin/better-setuptools-git-version',
     author='Vivin Paliath',
     author_email='vivin.paliath@gmail.com',
