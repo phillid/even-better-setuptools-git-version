@@ -59,8 +59,6 @@ def get_version(template="{tag}.dev{sha}", starting_version="0.1.0"):
         version = template.format(tag=tag, sha=sha)
 
     if is_dirty():
-        print("the dirty")
-        print(subprocess.getoutput("git status -s"))
         version = "{version}+dirty".format(version=version)
 
     return version
