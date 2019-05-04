@@ -3,20 +3,33 @@ import subprocess
 import collections
 
 
+def _get_command_output(command):
+    """ Compatibility wrapper for grabbing process output across multiple python versions. """
+
+    # python2.7 versions lack _get_command_output, so we'll emulate it by using check_output
+    # and ignoring the process' return status
+    try:
+        output = subprocess.check_output(command, shell=True)
+    except subprocess.CalledProcessError as e:
+        output = e.output
+
+    return output.strip()
+
+
 def get_tag():
     """Return the last tag for the git repository reachable from HEAD."""
     # another possible option is: 'git tag --merged | sort -V | tail -n1'
-    return subprocess.getoutput("git tag --sort=version:refname --merged | tail -n1")
+    return _get_command_output("git tag --sort=version:refname --merged | tail -n1")
 
 
 def get_tag_commit_sha(tag):
     """Return the commit that the tag is pointing to."""
-    return subprocess.getoutput("git rev-list -n 1 {tag}".format(tag=tag))
+    return _get_command_output("git rev-list -n 1 {tag}".format(tag=tag))
 
 
 def is_dirty():
     """Return True or False depending on whether the working tree is dirty (considers untracked files as well)"""
-    return len(subprocess.getoutput("git status -s")) != 0
+    return len(_get_command_output("git status -s")) != 0
 
 
 def is_head_at_tag(tag):
@@ -26,7 +39,7 @@ def is_head_at_tag(tag):
 
 def get_head_sha():
     """Return the sha key of HEAD."""
-    return subprocess.getoutput('git rev-parse HEAD')
+    return _get_command_output('git rev-parse HEAD')
 
 
 def get_version(template="{tag}.dev{sha}", starting_version="0.1.0"):
