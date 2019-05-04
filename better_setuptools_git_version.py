@@ -72,7 +72,8 @@ def get_version(template="{tag}.dev{sha}", starting_version="0.1.0"):
         version = template.format(tag=tag, sha=sha)
 
     if is_dirty():
-        version = "{version}+dirty".format(version=version)
+        separator = '.' if ('+' in version) else '+'
+        version = "{version}{separator}dirty".format(version=version, separator=separator)
 
     return version
 
