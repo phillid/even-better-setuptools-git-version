@@ -80,7 +80,9 @@ def get_version(template="{tag}.dev{sha}", starting_version="0.1.0"):
 
 def validate_version_config(dist, _, config):
     """Validate the `version_config` keyword in a client setup.py script."""
-    if not isinstance(config, collections.Mapping):
+    # collections.Mapping and friends moved into collections.abc in python 3.10
+    collections_compat = getattr(collections, 'abc', collections)
+    if not isinstance(config, collections_compat.Mapping):
         raise TypeError("Config should be a dictionary with `version_format` and `starting_version` keys.")
 
     if "starting_version" not in config:
